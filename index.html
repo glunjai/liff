@@ -1,62 +1,173 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover">
-  <title>My LIFF App</title>
-</head>
-<body>
-  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-  <script>
-    async function main() {
-      await liff.init({liffId:"1657262937-aQVBekVn"})
-      await liff.shareTargetPicker([
-        {
-          "type": "flex",
-          "altText": "Flex Message from share Target Picker",
-          "contents": {
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>คอร์สสมาธิออนไลน์ กลั่นใจให้เป็นสุข</title> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    
+  </head>
+  <body>
+
+    
+    <script>
+    window.onload = function(e){
+      liff.init({liffId: "1657262937-WGp6Pxpa"}, function(){
+        liff.ready.then(()=>{
+          if(liff.isLoggedIn()){
+          var name = getParameterByName("refer")
+          //https://liff.line.me/1657262937-WGp6Pxpa?refer=xxx
+          
+//แชร์ ด้วยรูปแบบ flex Msg การ์ดที่ 2 -- https://liff.line.me/1657262937-WGp6Pxpa?refer=share2
+            
+         if(name === "share2"){
+            var ss = [{
+ "type": "flex",
+ "altText": "มานั่งสมาธิ เติมสุขให้ใจไปด้วยกันนะคะ ",   //แก้xxxxคำโชว์ที่เห็นในไลน์พร้อมกับส่งการ์ด
+ "contents":
+//copy lex Msg มาไว้ด้านล่างนี้//
+{
   "type": "bubble",
   "hero": {
     "type": "image",
-    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+    "url": "https://glunjai.com/wp-content/uploads/2022/08/1-4.jpg",
     "size": "full",
-    "aspectRatio": "20:13",
-    "aspectMode": "cover",
-    "action": {
-      "type": "uri",
-      "uri": "http://linecorp.com/"
-    }
+    "aspectRatio": "1:1",
+    "aspectMode": "cover"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "คอร์สสมาธิออนไลน์",
+        "align": "center",
+        "margin": "lg",
+        "contents": []
+      },
+      {
+        "type": "text",
+        "text": "✨ กลั่นใจให้เป็นสุข✨",
+        "weight": "bold",
+        "size": "xl",
+        "color": "#04999F",
+        "align": "center",
+        "margin": "md",
+        "contents": []
+      },
+      {
+        "type": "text",
+        "text": "11 - 17 ก.ย. 65 เวลา 20.00 - 21.30 น.",
+        "align": "center",
+        "margin": "sm",
+        "contents": []
+      },
+      {
+        "type": "text",
+        "text": "#มาเติมสุขให้ใจไปด้วยกัน",
+        "color": "#656464FF",
+        "align": "center",
+        "margin": "sm",
+        "contents": []
+      }
+    ]
   },
   "footer": {
     "type": "box",
     "layout": "vertical",
+    "flex": 0,
     "spacing": "sm",
     "contents": [
       {
         "type": "button",
-        "style": "link",
-        "height": "sm",
         "action": {
           "type": "uri",
-          "label": "Share",
-          "uri": "https://glunjai.github.io/liff"
-        }
+          "label": "คลิกสมัคร เรียนฟรี",
+          "uri": "https://linecorp.com"
+        },
+        "color": "#36A2A2FF",
+        "height": "md",
+        "style": "primary"
       },
       {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [],
-        "margin": "sm"
+        "type": "button",
+        "action": {
+          "type": "uri",
+          "label": "คลิกแชร์",
+          "uri": "https://linecorp.com"
+        },
+        "color": "#08898EFF",
+        "height": "md",
+        "style": "primary"
+      },
+      {
+        "type": "spacer"
       }
-    ],
-    "flex": 0
+    ]
   }
 }
+           
+// End Flex Msg //
+
+              }]
+              
+             shareMsg(ss)
+           }
+
+//------------------------------------------//
+//ด้านล่างนี้ห้ามแก้ไขใดใด           
+            
+          } else {
+            liff.login()
+          }
+          
+        })
+        
+      })
+    }
+      
+      function sendMsg(flex){
+        liff.sendMessages(flex).then(function(){
+          liff.closeWindow();
+        })
+      }
+      
+      function shareMsg(flex){
+        liff.shareTargetPicker(flex).then(function (res) {
+      if (res) {
+        liff.closeWindow();
+             } else {
+        const [majorVer, minorVer] = (liff.getLineVersion() || "").split('.');
+        if (parseInt(majorVer) == 10 && parseInt(minorVer) < 11) {
+          
+          console.log('TargetPicker was opened at least. Whether succeeded to send message is unclear')
+        } else {
+         
+          console.log('TargetPicker was closed!')
         }
-    ])
-    liff.closeWindow()
+      }
+    }).catch(function (error) {
+     
+      console.log('something wrong happen')
+    })
+
+        
+      }
+      
+      function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
-main()
-</script>
-</body>
+      
+    </script>
+    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+  </body>
 </html>
+            
